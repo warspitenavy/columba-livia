@@ -39,8 +39,8 @@ bukkit {
     version = "1.0"
     apiVersion = "1.16"
     author = "warspite.navy"
-
     defaultPermission = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.OP
+
     commands {
         register("clivia") {
             permission = "columbalivia.admin"
