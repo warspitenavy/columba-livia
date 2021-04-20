@@ -35,7 +35,7 @@ object Config {
      * configファイルを保存する
      * @param data ConfigData.Config
      */
-    fun save(data: ConfigData.Config) {
+    private fun save(data: ConfigData.Config) {
         val file = Yaml.default.encodeToString(data).split(System.lineSeparator())
         Files.write(configFile, file)
     }
@@ -45,16 +45,14 @@ object Config {
      * トークンがnullの場合、削除する
      * @param uuid UUID
      * @param token Botトークン
-     * @return 正常終了の場合、true
      */
-    fun edit(uuid: UUID, token: String? = null): Boolean {
+    fun edit(uuid: UUID, token: String? = null) {
         val data = this.config
-        val user = data.players?.find { it.uuid == "$uuid" } ?: return false
+        val user = data.players?.find { it.uuid == "$uuid" }
 
-        data.players.remove(user)
-        if (token != null) data.players.add(ConfigData.Player("$uuid", token))
-        save(data)
-        return true
+        if (user != null) data.players.remove(user)
+        if (token != null) data.players?.add(ConfigData.Player("$uuid", token))
+        this.save(data)
     }
 
     /**
@@ -70,6 +68,8 @@ object Config {
 
         if (data.master == null) messages.add("masterマッピングがありません")
         if (data.master?.token.isNullOrBlank()) messages.add("マスタートークンが未設定です")
+
+        if (data.players == null) messages.add("playerマッピングがありません(空リストにしてください)")
 
         for (message in messages) server.logger.info(message)
 

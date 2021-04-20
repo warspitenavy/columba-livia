@@ -36,7 +36,6 @@ object Server {
         if (Config.validity) {
             Master.run()
             User.runOnlinePlayer()
-            Main.instance.server.pluginManager.registerEvents(McListener, Main.instance)
         }
     }
 }
