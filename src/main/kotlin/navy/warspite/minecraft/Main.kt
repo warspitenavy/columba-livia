@@ -1,7 +1,7 @@
 package navy.warspite.minecraft
 
+import navy.warspite.minecraft.bot.Master
 import navy.warspite.minecraft.command.CommandRegister
-import navy.warspite.minecraft.listener.McListener
 import org.bukkit.plugin.java.JavaPlugin
 
 /**

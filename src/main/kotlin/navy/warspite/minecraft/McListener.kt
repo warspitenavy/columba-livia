@@ -1,6 +1,7 @@
-package navy.warspite.minecraft.listener
+package navy.warspite.minecraft
 
-import navy.warspite.minecraft.Master
+import navy.warspite.minecraft.bot.Master
+import navy.warspite.minecraft.bot.User
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -19,7 +20,7 @@ object McListener : Listener {
     @EventHandler
     private fun playerJoinEvent(e: PlayerJoinEvent) {
         Master.send("${e.player.name} joined the game.")
-        Master.update()
+        User.run(e.player.uniqueId)
     }
 
     /**
@@ -29,7 +30,7 @@ object McListener : Listener {
     @EventHandler
     private fun playerQuitEvent(e: PlayerQuitEvent) {
         Master.send("${e.player.name} left the game.")
-        Master.update()
+        User.shutdown(e.player.uniqueId)
     }
 
     /**
@@ -38,5 +39,6 @@ object McListener : Listener {
      */
     @EventHandler
     private fun onAsyncPlayerChatEvent(e: AsyncPlayerChatEvent) {
+        User.send(e.player.uniqueId, e.message)
     }
 }
