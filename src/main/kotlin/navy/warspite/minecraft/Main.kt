@@ -3,6 +3,7 @@ package navy.warspite.minecraft
 import navy.warspite.minecraft.bot.Master
 import navy.warspite.minecraft.bot.Server
 import navy.warspite.minecraft.command.CommandRegister
+import navy.warspite.minecraft.command.TabComplete
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -13,7 +14,7 @@ class Main : JavaPlugin() {
     /** メインクラスのインスタンス変数 */
     companion object {
         lateinit var instance: JavaPlugin
-        private set
+            private set
     }
 
     /** プラグイン読み込み */
@@ -27,6 +28,7 @@ class Main : JavaPlugin() {
             server.pluginManager.registerEvents(McListener, this)
         }
         getCommand("clivia")?.setExecutor(CommandRegister)
+        getCommand("clivia")?.tabCompleter = TabComplete
     }
 
     /** プラグイン停止 */

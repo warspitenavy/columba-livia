@@ -8,7 +8,8 @@ import org.bukkit.command.CommandSender
 
 object CommandRegister : CommandExecutor {
     val commands = linkedMapOf(
-        "edit" to EditToken
+        "edit" to EditToken,
+        "reboot" to Reboot
     )
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         return when {
