@@ -1,6 +1,7 @@
 package navy.warspite.minecraft.bot
 
 import navy.warspite.minecraft.Config
+import navy.warspite.minecraft.Main
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.events.ReadyEvent
@@ -39,6 +40,14 @@ object User {
             it.shutdownNow()
             users.remove(uuid)
         }
+    }
+
+    /**
+     * ログインしているユーザーのBotを起動する
+     */
+    fun runOnlinePlayer() {
+        val players = Main.instance.server.onlinePlayers.map { it.uniqueId }
+        players.forEach { this.run(it) }
     }
 
     /**

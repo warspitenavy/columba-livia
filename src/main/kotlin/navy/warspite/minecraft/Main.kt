@@ -1,6 +1,7 @@
 package navy.warspite.minecraft
 
 import navy.warspite.minecraft.bot.Master
+import navy.warspite.minecraft.bot.Server
 import navy.warspite.minecraft.command.CommandRegister
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -31,5 +32,6 @@ class Main : JavaPlugin() {
     /** プラグイン停止 */
     override fun onDisable() {
         super.onDisable()
+        Server.powerOff()
     }
 }
