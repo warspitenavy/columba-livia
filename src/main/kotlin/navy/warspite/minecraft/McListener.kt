@@ -39,6 +39,10 @@ object McListener : Listener {
      */
     @EventHandler
     private fun onAsyncPlayerChatEvent(e: AsyncPlayerChatEvent) {
-        User.send(e.player.uniqueId, e.message)
+        if (User.users[e.player.uniqueId] != null) {
+            User.send(e.player.uniqueId, e.message)
+        } else {
+            Master.send("${e.player.name}: ${e.message}")
+        }
     }
 }

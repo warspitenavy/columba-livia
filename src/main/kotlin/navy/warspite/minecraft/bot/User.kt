@@ -12,7 +12,7 @@ import java.util.*
  * @author warspite.navy
  */
 object User {
-    private val users = mutableMapOf<UUID, JDA>()
+    val users = linkedMapOf<UUID, JDA>()
 
     /**
      * プレイヤーBotを起動する
@@ -27,7 +27,7 @@ object User {
                 Master.update()
                 users[uuid] = event.jda
             }
-        })
+        }).build()
     }
 
     /**
@@ -43,6 +43,8 @@ object User {
 
     /**
      * ユーザーBotでメッセージを送信する
+     * @param uuid プレイヤーUUID
+     * @param message メッセージ
      */
     fun send(uuid: UUID, message: String) {
         users[uuid]?.let { Server.send(it, message) }

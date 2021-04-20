@@ -3,7 +3,7 @@ package navy.warspite.minecraft
 import org.bukkit.ChatColor
 
 /**
- * 便利な関数が入ってるクラス
+ * ユーティリティクラス
  * @author warspite.navy
  */
 object Utils {

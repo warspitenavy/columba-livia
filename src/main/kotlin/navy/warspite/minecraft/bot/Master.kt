@@ -1,6 +1,6 @@
 package navy.warspite.minecraft.bot
 
-import navy.warspite.minecraft.Config.config
+import navy.warspite.minecraft.Config
 import navy.warspite.minecraft.Main
 import navy.warspite.minecraft.Utils
 import net.dv8tion.jda.api.JDA
@@ -19,7 +19,7 @@ object Master {
 
     /** マスターBotを起動する */
     fun run() {
-        JDABuilder.createDefault(config.master?.token)
+        JDABuilder.createDefault(Config.config.master?.token)
             .addEventListeners(object : ListenerAdapter() {
                 /** 起動したら、変数masterにJDAを代入 */
                 override fun onReady(event: ReadyEvent) {
@@ -30,7 +30,9 @@ object Master {
                 /** メッセージを受信したら、ゲーム内に送信 */
                 override fun onMessageReceived(event: MessageReceivedEvent) {
                     super.onMessageReceived(event)
+                    if (event.channel.id != Config.config.server?.channel) return
                     if (event.author.isBot) return
+                    if (event.message.isWebhookMessage) return
 
                     val name = event.author.name
                     val message = event.message.contentDisplay

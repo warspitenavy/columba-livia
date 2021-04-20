@@ -6,13 +6,11 @@ import com.charleskorn.kaml.UnknownPropertyException
 import com.charleskorn.kaml.Yaml
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
-import navy.warspite.minecraft.Utils.coloured
 import navy.warspite.minecraft.data.ConfigData
-import navy.warspite.minecraft.data.Permissions
 import java.lang.Exception
 import java.nio.file.Files
 import java.nio.file.Paths
-import kotlin.properties.Delegates
+import java.util.*
 
 /**
  * Configファイルに関するクラス
@@ -20,6 +18,7 @@ import kotlin.properties.Delegates
  */
 object Config {
     private val server = Main.instance.server
+
     /** プラグインのディレクトリパス */
     private val dir = Paths.get("./plugins/${Main.instance.name}")
 
@@ -39,6 +38,23 @@ object Config {
     fun save(data: ConfigData.Config) {
         val file = Yaml.default.encodeToString(data).split(System.lineSeparator())
         Files.write(configFile, file)
+    }
+
+    /**
+     * ユーザーのトークンを編集
+     * トークンがnullの場合、削除する
+     * @param uuid UUID
+     * @param token Botトークン
+     * @return 正常終了の場合、true
+     */
+    fun edit(uuid: UUID, token: String? = null): Boolean {
+        val data = this.config
+        val user = data.players?.find { it.uuid == "$uuid" } ?: return false
+
+        data.players.remove(user)
+        if (token != null) data.players.add(ConfigData.Player("$uuid", token))
+        save(data)
+        return true
     }
 
     /**
@@ -72,7 +88,7 @@ object Config {
             initialise(true)
             Yaml.default.decodeFromString(configFile.toFile().readText())
         } catch (e: Exception) {
-            when(e) {
+            when (e) {
                 is InvalidPropertyValueException, is UnknownPropertyException -> {
                     server.logger.info("configファイルに誤りがあります")
                     ConfigData.Config()
